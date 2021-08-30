@@ -18,7 +18,7 @@ function renderCourseForm(args) {
 
 it("renders form and header", () => {
     const wrapper = renderCourseForm();
-    // console.log(wrapper.debug());
+    console.log(wrapper.debug());
     expect(wrapper.find("form").length).toBe(1);
     expect(wrapper.find("h2").text()).toEqual("Add Course");
 });

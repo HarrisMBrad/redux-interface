@@ -1,18 +1,22 @@
 import * as types from "./actionTypes";
 import * as authorApi from "../../api/authorApi";
-
+import { beginApiCall, apiCallError } from "./apiStatusActions";
 
 export function loadAuthorsSuccess(authors) {
     return { type: types.LOAD_AUTHORS_SUCCESS, authors };
 }
 
-// THUNK
 export function loadAuthors() {
     return function (dispatch) {
-        return authorApi.getAuthors().then(authors => {
-            dispatch(loadAuthorsSuccess(authors));
-        }).catch(error => {
-            throw error;
-        })
-    }
+        dispatch(beginApiCall());
+        return authorApi
+            .getAuthors()
+            .then(authors => {
+                dispatch(loadAuthorsSuccess(authors));
+            })
+            .catch(error => {
+                dispatch(apiCallError(error));
+                throw error;
+            });
+    };
 }
